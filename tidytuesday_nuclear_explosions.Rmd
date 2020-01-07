@@ -1,0 +1,36 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r, message=FALSE}
+library(tidyverse)
+library(maps)
+library(ggthemes)
+```
+
+```{r get data, cache=TRUE, message=FALSE}
+nuclear_explosions <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-08-20/nuclear_explosions.csv")
+```
+
+```{r}
+nuclear_explosions
+```
+
+```{r}
+glimpse(nuclear_explosions)
+```
+
+```{r}
+world_map <- map_data("world")
+
+
+ggplot() +
+  geom_polygon(data = world_map, aes(x = long, y = lat, group = group), fill = NA, color = "grey") +
+  geom_point(data = nuclear_explosions, aes(x = longitude, y = latitude, size = (yield_upper + yield_lower)/2, color = country)) +
+  theme_economist_white() +
+  theme(legend.position = "right")
+  
+
+```
+
